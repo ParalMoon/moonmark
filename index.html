@@ -1,44 +1,143 @@
-<!doctype html>
+html = r'''<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#e9e9e1">
   <meta name="description" content="당신의 웹을 펼쳐놓는 조용한 공간. Visual Bookmark Atlas.">
+
+  <!--
+    GitHub Pages / browser cache 방지용.
+    HTTP 응답 헤더를 직접 제어할 수 없는 정적 호스팅 환경에서,
+    브라우저가 가능한 한 오래된 HTML을 재사용하지 않도록 힌트를 준다.
+  -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <title>Moonmark — 나만의 웹 지도</title>
   <link rel="icon" href="assets/atlas.svg" type="image/svg+xml">
-  <!-- Increment assetVersion whenever a GitHub Pages release changes these files. -->
-  <link rel="stylesheet" href="style.css?v=2.1.0-20261004">
-  <script src="core.js?v=2.1.0-20261004" defer></script>
-  <script src="script.js?v=2.1.0-20261004" defer></script>
+
+  <!--
+    강한 cache busting:
+    HTML이 최신 버전으로 한 번만 로드되면 이후 CSS/JS는 매 새로고침마다
+    고유 query string을 사용하므로 이전 asset cache를 재사용하지 않는다.
+  -->
+  <script>
+    (() => {
+      const BUILD_VERSION = "2.1.0-20261004";
+      const cacheBust = `${BUILD_VERSION}-${Date.now()}`;
+
+      const style = document.createElement("link");
+      style.rel = "stylesheet";
+      style.href = `style.css?v=${encodeURIComponent(cacheBust)}`;
+      document.head.appendChild(style);
+
+      window.__MOONMARK_CACHE_BUST__ = cacheBust;
+    })();
+  </script>
 </head>
 <body>
   <main id="atlas" aria-label="북마크 지도. 빈 공간에서 우클릭하거나 N 키를 눌러 사이트를 추가하세요." tabindex="0">
     <div id="world"></div>
+
     <section id="welcome" aria-labelledby="welcome-title">
       <div class="eyebrow">MOONMARK · A LITTLE SPACE FOR YOUR INTERNET</div>
-      <svg class="atlas-mark" width="68" height="68" viewBox="0 0 68 68" fill="none" aria-hidden="true"><ellipse cx="34" cy="34" rx="28" ry="11" transform="rotate(-35 34 34)"/><ellipse cx="34" cy="34" rx="11" ry="28" transform="rotate(-35 34 34)"/><circle cx="34" cy="34" r="3"/></svg>
+
+      <svg class="atlas-mark" width="68" height="68" viewBox="0 0 68 68" fill="none" aria-hidden="true">
+        <ellipse cx="34" cy="34" rx="28" ry="11" transform="rotate(-35 34 34)"/>
+        <ellipse cx="34" cy="34" rx="11" ry="28" transform="rotate(-35 34 34)"/>
+        <circle cx="34" cy="34" r="3"/>
+      </svg>
+
       <h1 id="welcome-title">당신의 웹을,<br>당신의 공간에.</h1>
       <p>자주 찾는 곳들을 펼쳐놓으세요.<br>위치로 기억하는 나만의 북마크 지도.</p>
-      <button id="start" class="primary">첫 북마크 놓기 <span aria-hidden="true">↗</span></button>
+
+      <button id="start" class="primary">
+        첫 북마크 놓기 <span aria-hidden="true">↗</span>
+      </button>
+
       <button id="demo" class="text-button">예시 지도로 둘러보기</button>
-      <div class="welcome-hint">빈 공간에서 우클릭 · URL 붙여넣기로 빠르게 추가</div>
+
+      <div class="welcome-hint">
+        빈 공간에서 우클릭 · URL 붙여넣기로 빠르게 추가
+      </div>
     </section>
   </main>
+
   <div id="selection-box" hidden></div>
   <div id="tooltip" role="tooltip" hidden></div>
   <div id="context-menu" role="menu" aria-label="지도 메뉴" hidden></div>
   <div id="helper" role="status" hidden></div>
   <div id="toast" role="status" aria-live="polite" hidden></div>
+
   <div id="search-panel" hidden>
-    <span aria-hidden="true">⌕</span><input id="search-input" type="search" aria-label="사이트, 도메인, 그룹 검색" placeholder="이름, 도메인, 그룹 검색" autocomplete="off"><button id="close-search" aria-label="검색 닫기">Esc</button>
+    <span aria-hidden="true">⌕</span>
+    <input
+      id="search-input"
+      type="search"
+      aria-label="사이트, 도메인, 그룹 검색"
+      placeholder="이름, 도메인, 그룹 검색"
+      autocomplete="off"
+    >
+    <button id="close-search" aria-label="검색 닫기">Esc</button>
     <div id="search-status" aria-live="polite"></div>
   </div>
-  <dialog id="dialog" aria-labelledby="dialog-title"><form id="dialog-form">
-    <div class="dialog-heading"><span class="eyebrow">MOONMARK · YOUR WEB, YOUR SPACE</span><button type="button" id="dialog-close" class="icon-button" aria-label="닫기">×</button></div>
-    <h2 id="dialog-title"></h2><p id="dialog-description"></p><div id="dialog-body"></div>
-    <div class="dialog-actions"><button type="button" id="dialog-cancel" class="secondary">취소</button><button type="submit" id="dialog-submit" class="primary">적용</button></div>
-  </form></dialog>
+
+  <dialog id="dialog" aria-labelledby="dialog-title">
+    <form id="dialog-form">
+      <div class="dialog-heading">
+        <span class="eyebrow">MOONMARK · YOUR WEB, YOUR SPACE</span>
+        <button type="button" id="dialog-close" class="icon-button" aria-label="닫기">×</button>
+      </div>
+
+      <h2 id="dialog-title"></h2>
+      <p id="dialog-description"></p>
+      <div id="dialog-body"></div>
+
+      <div class="dialog-actions">
+        <button type="button" id="dialog-cancel" class="secondary">취소</button>
+        <button type="submit" id="dialog-submit" class="primary">적용</button>
+      </div>
+    </form>
+  </dialog>
+
   <input id="import-file" type="file" accept=".json,application/json" hidden>
+
+  <!--
+    core.js -> script.js 순서를 보장하고,
+    DOM 파싱이 끝난 뒤 실행되도록 순차 로드한다.
+  -->
+  <script>
+    (() => {
+      const cacheBust =
+        window.__MOONMARK_CACHE_BUST__ ||
+        `fallback-${Date.now()}`;
+
+      function loadScript(src) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src = `${src}?v=${encodeURIComponent(cacheBust)}`;
+          script.async = false;
+          script.onload = resolve;
+          script.onerror = () => reject(new Error(`Failed to load ${src}`));
+          document.body.appendChild(script);
+        });
+      }
+
+      loadScript("core.js")
+        .then(() => loadScript("script.js"))
+        .catch((error) => {
+          console.error("[Moonmark] Asset loading failed:", error);
+        });
+    })();
+  </script>
 </body>
 </html>
+'''
+
+path = "/mnt/data/index.html"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print(path)
