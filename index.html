@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9e9e1">
+  <meta name="description" content="당신의 웹을 펼쳐놓는 조용한 공간. Visual Bookmark Atlas.">
+  <title>Visual Bookmark Atlas</title>
+  <link rel="icon" href="assets/atlas.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main id="atlas" aria-label="북마크 지도. 빈 공간에서 우클릭하거나 N 키를 눌러 사이트를 추가하세요." tabindex="0">
+    <div id="world"></div>
+    <section id="welcome" aria-labelledby="welcome-title">
+      <div class="eyebrow">A LITTLE SPACE FOR YOUR INTERNET</div>
+      <svg class="atlas-mark" width="68" height="68" viewBox="0 0 68 68" fill="none" aria-hidden="true"><ellipse cx="34" cy="34" rx="28" ry="11" transform="rotate(-35 34 34)"/><ellipse cx="34" cy="34" rx="11" ry="28" transform="rotate(-35 34 34)"/><circle cx="34" cy="34" r="3"/></svg>
+      <h1 id="welcome-title">당신의 웹을,<br>당신의 공간에.</h1>
+      <p>자주 찾는 곳들을 펼쳐놓으세요.<br>위치로 기억하는 나만의 북마크 지도.</p>
+      <button id="start" class="primary">첫 북마크 놓기 <span aria-hidden="true">↗</span></button>
+      <button id="demo" class="text-button">예시 지도로 둘러보기</button>
+      <div class="welcome-hint">빈 공간에서 우클릭 · URL 붙여넣기로 빠르게 추가</div>
+    </section>
+  </main>
+  <div id="selection-box" hidden></div>
+  <div id="tooltip" role="tooltip" hidden></div>
+  <div id="context-menu" role="menu" aria-label="지도 메뉴" hidden></div>
+  <div id="helper" role="status" hidden></div>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <div id="search-panel" hidden>
+    <span aria-hidden="true">⌕</span><input id="search-input" type="search" aria-label="사이트, 도메인, 그룹 검색" placeholder="이름, 도메인, 그룹 검색" autocomplete="off"><button id="close-search" aria-label="검색 닫기">Esc</button>
+    <div id="search-status" aria-live="polite"></div>
+  </div>
+  <dialog id="dialog" aria-labelledby="dialog-title"><form id="dialog-form">
+    <div class="dialog-heading"><span class="eyebrow">VISUAL BOOKMARK ATLAS</span><button type="button" id="dialog-close" class="icon-button" aria-label="닫기">×</button></div>
+    <h2 id="dialog-title"></h2><p id="dialog-description"></p><div id="dialog-body"></div>
+    <div class="dialog-actions"><button type="button" id="dialog-cancel" class="secondary">취소</button><button type="submit" id="dialog-submit" class="primary">적용</button></div>
+  </form></dialog>
+  <input id="import-file" type="file" accept=".json,application/json" hidden>
+</body>
+</html>
