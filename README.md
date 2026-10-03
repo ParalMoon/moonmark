@@ -76,6 +76,8 @@ python3 -m http.server 8766 --bind 127.0.0.1
 
 v1 파일은 `/Users/moon/space/BookMarkSite`에 유지하고, v2는 `/Users/moon/space/BookMarkSite2`에서 개발합니다. HTML/CSS/Vanilla JavaScript 구성과 기존 저장 키·데이터 version 1을 유지했습니다.
 
+GitHub Pages 배포 때 정적 자산 캐시를 피하도록 `index.html`의 `?v=...` 버전을 올려 주세요. `style.css`, `core.js`, `script.js` 중 하나라도 바뀌면 세 URL의 버전을 함께 변경하면 브라우저가 새 파일로 다시 요청합니다. 이번 배포 버전은 `2.1.0-20261004`입니다.
+
 - 기존 그룹, 사이트, 로고, 방문 기록과 x/y, zoom, offsetX/Y는 그대로 읽습니다. 없는 `settings.background`만 기본값으로 채웁니다.
 - 신규 그룹을 생성할 때만 소속 사이트의 실제/예상 반경을 고려해 빈 공간을 찾습니다. 기존 그룹은 움직이지 않습니다. 창 안에 다 들어가지 않으면 pan 또는 축소해서 볼 수 있습니다.
 - 그룹 이동의 지연·스프링은 화면에만 적용됩니다. 최종 그룹 간 위치와 각 그룹 내부 상대 위치는 그대로 유지됩니다.
