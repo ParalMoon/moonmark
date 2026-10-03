@@ -6,3 +6,17 @@
 dialog{border:1px solid #fff;border-radius:20px;background:#f7f8f1;color:var(--ink);box-shadow:0 24px 100px #24392025;width:min(490px,calc(100vw - 32px));padding:29px;max-height:88vh}dialog::backdrop{background:#34422d20;backdrop-filter:blur(7px)}.dialog-heading{display:flex;align-items:center;justify-content:space-between}.icon-button{background:none;border:0;color:#8a9585;font-size:25px;padding:0 3px}h2{font-size:25px;font-weight:500;letter-spacing:-1px;margin:24px 0 10px}#dialog-description{font-size:12px;line-height:1.8;color:#86907d;margin:0 0 21px;white-space:pre-line}#dialog-body textarea,#dialog-body input,#dialog-body select{width:100%;padding:13px 14px;border:1px solid #dce2d4;border-radius:8px;background:#fff9;color:#405239;font-size:13px;line-height:1.8}#dialog-body textarea{min-height:230px;resize:vertical}#dialog-body label{display:block;font-size:12px;margin-bottom:8px;color:#6f8066}.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:22px}.help-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;font-size:12px;line-height:1.7}.help-grid kbd{display:block;color:#8b977f;font-family:inherit;font-size:11px}#dialog-body .warning{font-size:13px;line-height:1.8;color:#966453}
 @media(max-width:600px){h1{font-size:34px}.group-node{font-size:16px}#welcome{top:46%}.welcome-hint{font-size:9px}dialog{padding:23px}.eyebrow{font-size:9px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Moonmark v2: separated group selection, canvas pan and gradient controls. */
+#atlas.panning{cursor:grabbing}
+.group-node.selected{background:#ffffff70;box-shadow:0 0 0 2px #8b83a9,0 0 24px #8b83a925}
+#selection-box.group-selection{border-color:#9283ac;background:#9283ac20}
+.theme-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:17px 13px;margin:25px 0 28px}
+.theme-swatch{width:100%;aspect-ratio:1;border-radius:50%;border:3px solid #f7f8f1;box-shadow:0 0 0 1px #65735518;transition:transform .18s,box-shadow .18s}
+.theme-swatch:hover{transform:scale(1.09);box-shadow:0 0 0 1px #65735570}
+.theme-swatch[aria-pressed=true]{box-shadow:0 0 0 2px #49634f;transform:scale(1.06)}
+.intensity-row{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+#dialog-body #theme-intensity{padding:0;accent-color:#61775b;border:0;cursor:pointer}
+.intensity-row output{font-size:12px;color:#77836b;min-width:35px}
+.theme-actions{display:flex;gap:8px;justify-content:space-between}
+@media(max-width:450px){.theme-grid{grid-template-columns:repeat(4,1fr);gap:15px}.theme-swatch{max-width:62px;justify-self:center}}
